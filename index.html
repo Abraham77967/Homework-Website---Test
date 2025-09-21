@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Testing Indicator - Remove after testing -->
+    <div id="view-indicator" class="view-indicator"></div>
+    
+    <!-- Theme Selector Dropdown -->
+    <div class="theme-selector">
+        <button id="theme-toggle" class="theme-toggle-btn" title="Theme options">
+            <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+        
+        <div class="theme-dropdown" id="theme-dropdown">
+            <div class="theme-option" data-theme="light">
+                <div class="theme-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </div>
+                <span class="theme-label">Light</span>
+                <div class="theme-check">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+            
+            <div class="theme-option" data-theme="dark">
+                <div class="theme-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </div>
+                <span class="theme-label">Dark</span>
+                <div class="theme-check">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+            
+            <div class="theme-option active" data-theme="auto">
+                <div class="theme-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
+                        <path d="M20.2 3.8L16.8 7.2m-9.6 9.6L3.8 20.2"></path>
+                        <path d="M3.8 3.8L7.2 7.2m9.6 9.6L20.2 20.2"></path>
+                    </svg>
+                </div>
+                <span class="theme-label">Auto</span>
+                <div class="theme-check">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Section -->
+    <div id="auth-section" class="auth-section">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h1 class="auth-title">Homework Tracker</h1>
+                <p class="auth-subtitle">Keep track of your assignments across all devices</p>
+                <button id="google-signin-btn" class="google-signin-btn">
+                    <i class="fab fa-google"></i>
+                    Sign in with Google
+                </button>
+                <div id="auth-error" class="auth-error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Section -->
+    <div id="app-section" class="app-section hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="app-title">Homework Tracker</h1>
+                    <div class="class-switcher-container">
+                        <select id="header-class-switcher" class="class-switcher">
+                            <option value="all">All Classes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                    <span id="user-name" class="user-name"></span>
+                    <button id="signout-btn" class="signout-btn btn-neon-bar">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+          </header>
+
+          <!-- Main Content -->
+        <main class="main-content">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="content-title-section">
+                    <h1 id="homework-section-title">Your Homework</h1>
+                    <p class="content-subtitle">Stay organized and never miss a deadline</p>
+                </div>
+                <div class="action-buttons">
+                    <button id="manage-classes-btn" class="manage-classes-btn btn-square" title="Manage Classes">
+                        <i class="fas fa-graduation-cap"></i>
+                    </button>
+                    <button id="add-weekly-homework-btn" class="add-weekly-homework-btn btn-neon-bar">
+                        <i class="fas fa-calendar-week"></i>
+                        Weekly Assignment
+                    </button>
+                    <button id="add-homework-btn" class="add-homework-btn btn-neon-bar">
+                        <i class="fas fa-plus"></i>
+                        Add Assignment
+                    </button>
+                </div>
+            </div>
+
+              <!-- Class Navigation -->
+            <div class="class-nav">
+                <div id="classNav" class="class-nav-buttons">
+                    <!-- Class navigation buttons will be dynamically generated -->
+                </div>
+            </div>
+
+              <!-- Homework List -->
+            <div class="homework-list-section">
+                <div id="homework-list" class="homework-list">
+                    <!-- Homework items will be dynamically added here -->
+                </div>
+                <div id="empty-state" class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3>No assignments yet</h3>
+                    <p>Add your first assignment to get started with tracking your homework.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Add Homework Modal -->
+    <div id="add-homework-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Homework</h2>
+                <button id="close-modal" class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="homework-form" class="homework-form">
+                <div class="form-grid">
+                    <!-- Row 1: Title (full width) -->
+                    <div class="form-group form-group-full">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" placeholder="Enter homework title..." class="form-neon-bar" required>
+                    </div>
+                    
+                    <!-- Row 2: Subject and Priority (side by side) -->
+                    <div class="form-group">
+                        <label for="subject">Class</label>
+                        <select id="subject" name="subject" class="form-neon-bar" required>
+                            <option value="">Select Class</option>
+                            <!-- Classes will be dynamically populated -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select id="priority" name="priority" class="form-neon-bar">
+                            <option value="">Select Priority</option>
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Row 3: Due Date and Due Time (side by side) -->
+                    <div class="form-group">
+                        <label for="due-date">Due Date</label>
+                        <div class="date-picker-container">
+                            <input type="date" id="due-date" name="dueDate" class="form-neon-bar" required>
+                            <button type="button" id="calendar-btn" class="calendar-btn" title="Open calendar">
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="due-time">Due Time</label>
+                        <div class="time-input-container">
+                            <input type="time" id="due-time" name="dueTime" value="23:59" class="form-neon-bar">
+                            <span class="time-indicator" id="timeIndicator">Evening</span>
+                        </div>
+                        <small class="form-help">Default: 23:59 (11:59 PM)</small>
+                    </div>
+                    
+                    <!-- Row 4: Description (full width) -->
+                    <div class="form-group form-group-full">
+                        <label for="description">Description (Optional)</label>
+                        <textarea id="description" name="description" rows="4" placeholder="Add any additional details about this assignment..." class="form-neon-bar"></textarea>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" id="cancel-btn" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Homework
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div id="calendar-modal" class="calendar-modal hidden">
+        <div class="calendar-modal-overlay"></div>
+        <div class="calendar-modal-content">
+            <div class="calendar-modal-header">
+                <h2 class="calendar-modal-title">Select Due Date</h2>
+                <button type="button" id="calendar-close-btn" class="calendar-close-btn" title="Close calendar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button type="button" id="prev-month" class="calendar-nav-btn" title="Previous month">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h3 id="calendar-month-year" class="calendar-month-year"></h3>
+                    <button type="button" id="next-month" class="calendar-nav-btn" title="Next month">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="calendar-weekdays">
+                    <div class="weekday">Sun</div>
+                    <div class="weekday">Mon</div>
+                    <div class="weekday">Tue</div>
+                    <div class="weekday">Wed</div>
+                    <div class="weekday">Thu</div>
+                    <div class="weekday">Fri</div>
+                    <div class="weekday">Sat</div>
+                </div>
+                <div id="calendar-days" class="calendar-days"></div>
+                <div class="calendar-footer">
+                    <button type="button" id="today-btn" class="calendar-today-btn">Today</button>
+                    <button type="button" id="clear-date-btn" class="calendar-clear-btn">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Class Management Modal -->
+    <div id="class-management-modal" class="modal hidden">
+        <div class="modal-content class-management-content">
+            <div class="modal-header">
+                <h2>Manage Classes</h2>
+                <button id="close-class-modal" class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="class-management-body">
+                <!-- Add New Class Section -->
+                <div class="add-class-section">
+                    <h3>Add New Class</h3>
+                    <form id="class-form" class="class-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="class-name">Class Name</label>
+                                <input type="text" id="class-name" name="className" placeholder="e.g., Advanced Mathematics" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="class-code">Class Code (Optional)</label>
+                                <input type="text" id="class-code" name="classCode" placeholder="e.g., MATH-101">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="class-teacher">Teacher/Professor</label>
+                                <input type="text" id="class-teacher" name="teacher" placeholder="e.g., Dr. Smith">
+                            </div>
+                            <div class="form-group">
+                                <label for="class-color">Color Theme</label>
+                                <div class="color-picker">
+                                    <input type="color" id="class-color" name="color" value="#3b82f6">
+                                    <span class="color-preview" id="color-preview"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-description">Description (Optional)</label>
+                            <textarea id="class-description" name="description" rows="3" placeholder="Add any additional details about this class..."></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="cancel-class-btn" class="cancel-btn">Cancel</button>
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-plus"></i>
+                                Add Class
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Existing Classes Section -->
+                <div class="existing-classes-section">
+                    <h3>Your Classes</h3>
+                    <div id="classes-list" class="classes-list">
+                        <!-- Classes will be dynamically added here -->
+                    </div>
+                    <div id="no-classes-state" class="no-classes-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h4>No classes yet</h4>
+                        <p>Add your first class to get started with organizing your homework.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Homework Modal -->
+    <div id="weekly-homework-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Weekly Assignment</h2>
+                <button id="close-weekly-modal" class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="weekly-homework-form" class="homework-form">
+                <div class="form-grid">
+                    <!-- Row 1: Title (full width) -->
+                    <div class="form-group form-group-full">
+                        <label for="weekly-title">Assignment Title</label>
+                        <input type="text" id="weekly-title" name="title" placeholder="e.g., Weekly Prelab Report" class="form-neon-bar" required>
+                    </div>
+                    
+                    <!-- Row 2: Subject and Priority (side by side) -->
+                    <div class="form-group">
+                        <label for="weekly-subject">Class</label>
+                        <select id="weekly-subject" name="subject" class="form-neon-bar" required>
+                            <option value="">Select Class</option>
+                            <!-- Classes will be dynamically populated -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="weekly-priority">Priority</label>
+                        <select id="weekly-priority" name="priority" class="form-neon-bar">
+                            <option value="">Select Priority</option>
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Row 3: Due Day and Due Time (side by side) -->
+                    <div class="form-group">
+                        <label for="weekly-due-day">Due Day</label>
+                        <select id="weekly-due-day" name="dueDay" class="form-neon-bar" required>
+                            <option value="">Select Day</option>
+                            <option value="0">Sunday</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="weekly-due-time">Due Time</label>
+                        <div class="time-input-container">
+                            <input type="time" id="weekly-due-time" name="dueTime" value="23:59" class="form-neon-bar">
+                            <span class="time-indicator" id="weeklyTimeIndicator">Evening</span>
+                        </div>
+                        <small class="form-help">Default: 23:59 (11:59 PM)</small>
+                    </div>
+                    
+                    <!-- Row 4: Start Date and End Date (side by side) -->
+                    <div class="form-group">
+                        <label for="weekly-start-date">Start Date</label>
+                        <input type="date" id="weekly-start-date" name="startDate" class="form-neon-bar" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="weekly-end-date">End Date (Optional)</label>
+                        <input type="date" id="weekly-end-date" name="endDate" class="form-neon-bar">
+                        <small class="form-help">Leave empty for indefinite weekly assignments</small>
+                    </div>
+                    
+                    <!-- Row 5: Description (full width) -->
+                    <div class="form-group form-group-full">
+                        <label for="weekly-description">Description (Optional)</label>
+                        <textarea id="weekly-description" name="description" rows="4" placeholder="Add any additional details about this weekly assignment..." class="form-neon-bar"></textarea>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" id="cancel-weekly-btn" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-calendar-week"></i>
+                        Create Weekly Assignment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Past Homework Modal -->
+    <div id="pastHomeworkModal" class="past-homework-modal">
+        <div class="past-homework-modal-content">
+            <div class="past-homework-modal-header">
+                <h2 class="past-homework-modal-title">Past Homework</h2>
+                <button class="past-homework-close-btn" onclick="closePastHomeworkModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="past-homework-modal-body">
+                <div id="pastHomeworkList" class="past-homework-list">
+                    <!-- Past homework items will be dynamically added here -->
+                </div>
+            </div>
+            <div class="past-homework-modal-footer">
+                <span id="pastHomeworkSelectedCount" class="past-homework-selected-count">0 selected</span>
+                <button id="pastHomeworkDeleteBtn" class="past-homework-delete-btn" onclick="deleteSelectedPastHomework()">
+                    <i class="fas fa-trash"></i> Delete Selected
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    
+    <!-- App JavaScript -->
+    <script>
+        // Add error handling for Firebase loading
+        window.addEventListener('error', function(e) {
+            console.error('Script loading error:', e);
+            // Force show the page even if Firebase fails
+            document.body.style.opacity = '1';
+        });
+        
+        // Fallback: show page after 3 seconds regardless
+        setTimeout(function() {
+            if (document.body.style.opacity === '0' || getComputedStyle(document.body).opacity === '0') {
+                console.log('Firebase loading timeout - showing page anyway');
+                document.body.style.opacity = '1';
+            }
+        }, 3000);
+    </script>
+    <script src="app.js"></script>
+    
+    
+    <script>
+        function clearAllHomework() {
+            // Show confirmation dialog
+            const confirmed = confirm('⚠️ WARNING: This will delete ALL homework assignments permanently!\n\nThis action cannot be undone.\n\nAre you sure you want to continue?');
+            
+            if (!confirmed) {
+                return;
+            }
+            
+            // Double confirmation for safety
+            const doubleConfirmed = confirm('🚨 FINAL WARNING 🚨\n\nYou are about to delete ALL homework assignments.\n\nType "DELETE ALL" in the next prompt to confirm.');
+            
+            if (!doubleConfirmed) {
+                return;
+            }
+            
+            const userInput = prompt('Type "DELETE ALL" to confirm deletion:');
+            
+            if (userInput !== 'DELETE ALL') {
+                alert('❌ Deletion cancelled. You must type "DELETE ALL" exactly.');
+                return;
+            }
+            
+            // Show loading
+            showLoading(true);
+            
+            // Get all homework for current user
+            db.collection('homework')
+                .where('userId', '==', currentUser.uid)
+                .get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        showLoading(false);
+                        alert('✅ No homework assignments found to delete.');
+                        return;
+                    }
+                    
+                    const batch = db.batch();
+                    let deleteCount = 0;
+                    
+                    querySnapshot.forEach((doc) => {
+                        batch.delete(doc.ref);
+                        deleteCount++;
+                    });
+                    
+                    return batch.commit().then(() => {
+                        showLoading(false);
+                        alert(`✅ Successfully deleted ${deleteCount} homework assignment(s)!`);
+                        
+                        // Refresh the homework list
+                        loadHomework();
+                    });
+                })
+                .catch((error) => {
+                    showLoading(false);
+                    console.error('Error deleting homework:', error);
+                    alert('❌ Failed to delete homework assignments. Please try again.');
+                });
+        }
+    </script>
+    
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <button id="fab-add-homework" class="fab fab-primary" title="Add Homework">
+            <i class="fas fa-plus"></i>
+        </button>
+        <div class="fab-menu" id="fab-menu">
+            <button class="fab fab-secondary" id="fab-add-weekly" title="Add Weekly Assignment">
+                <i class="fas fa-calendar-week"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-page="home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" data-page="classes">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Classes</span>
+        </button>
+        <button class="nav-item" data-page="add">
+            <i class="fas fa-plus"></i>
+            <span>Add</span>
+        </button>
+        <button class="nav-item" data-page="settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </button>
+    </nav>
+</body>
+</html>
