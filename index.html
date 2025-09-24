@@ -98,21 +98,21 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <div class="header-left">
-                    <h1 class="app-title">Homework Tracker</h1>
-                    <div class="class-switcher-container">
-                        <select id="header-class-switcher" class="class-switcher">
-                            <option value="all">All Classes</option>
-                        </select>
+                <div class="header-top">
+                    <div class="header-left">
+                        <h1 class="app-title">Homework Tracker</h1>
+                    </div>
+                    <div class="user-info">
+                        <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                        <span id="user-name" class="user-name"></span>
+                        <button id="signout-btn" class="signout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="signout-text">Sign Out</span>
+                        </button>
                     </div>
                 </div>
-                <div class="user-info">
-                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
-                    <span id="user-name" class="user-name"></span>
-                    <button id="signout-btn" class="signout-btn btn-neon-bar">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Sign Out
-                    </button>
+                <div class="mobile-class-switcher" id="mobile-class-switcher">
+                    <span class="switcher-text">All Classes</span>
                 </div>
             </div>
           </header>
@@ -144,6 +144,18 @@
             <div class="class-nav">
                 <div id="classNav" class="class-nav-buttons">
                     <!-- Class navigation buttons will be dynamically generated -->
+                </div>
+                <!-- Mobile Class Navigation -->
+                <div id="mobileClassNav" class="mobile-class-nav">
+                    <div class="mobile-class-nav-header">
+                        <h3 class="mobile-class-nav-title">Select Class</h3>
+                        <button class="mobile-class-nav-close" id="mobile-class-nav-close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="mobile-class-nav-buttons" id="mobile-class-nav-buttons">
+                        <!-- Mobile class navigation buttons will be dynamically generated -->
+                    </div>
                 </div>
             </div>
 
@@ -546,36 +558,9 @@
         }
     </script>
     
-    <!-- Floating Action Button -->
-    <div class="fab-container">
-        <button id="fab-add-homework" class="fab fab-primary" title="Add Homework">
-            <i class="fas fa-plus"></i>
-        </button>
-        <div class="fab-menu" id="fab-menu">
-            <button class="fab fab-secondary" id="fab-add-weekly" title="Add Weekly Assignment">
-                <i class="fas fa-calendar-week"></i>
-            </button>
-        </div>
-    </div>
-    
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" data-page="home">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </button>
-        <button class="nav-item" data-page="classes">
-            <i class="fas fa-graduation-cap"></i>
-            <span>Classes</span>
-        </button>
-        <button class="nav-item" data-page="add">
-            <i class="fas fa-plus"></i>
-            <span>Add</span>
-        </button>
-        <button class="nav-item" data-page="settings">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </button>
-    </nav>
+    <!-- Mobile Floating Action Button -->
+    <button id="mobile-fab" class="mobile-fab" title="Add Assignment">
+        <i class="fas fa-plus"></i>
+    </button>
 </body>
 </html>

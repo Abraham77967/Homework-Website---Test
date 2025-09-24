@@ -37,7 +37,13 @@ function updateViewIndicator() {
 
 // Initialize view indicator
 updateViewIndicator();
-window.addEventListener('resize', updateViewIndicator);
+window.addEventListener('resize', () => {
+    updateViewIndicator();
+    // Re-render homework list when switching between mobile/desktop
+    if (homeworkList && homeworkList.length > 0) {
+        renderHomeworkList();
+    }
+});
 
 // Debug function - call this from browser console to test Firebase connection
 window.testFirebaseConnection = function() {
@@ -181,6 +187,12 @@ function setupEventListeners() {
     addHomeworkBtn.addEventListener('click', openAddHomeworkModal);
     closeModalBtn.addEventListener('click', closeAddHomeworkModal);
     cancelBtn.addEventListener('click', closeAddHomeworkModal);
+    
+    // Mobile FAB functionality
+    const mobileFab = document.getElementById('mobile-fab');
+    if (mobileFab) {
+        mobileFab.addEventListener('click', openAddHomeworkModal);
+    }
     
     // Weekly homework modal functionality
     addWeeklyHomeworkBtn.addEventListener('click', openWeeklyHomeworkModal);
@@ -1191,10 +1203,14 @@ function getVisibleHomeworkCount(homeworkArray) {
 
 function renderClassNavigation() {
     const classNavElement = document.getElementById('classNav');
+    const mobileClassNavElement = document.getElementById('mobileClassNav');
+    const mobileClassSwitcher = document.getElementById('mobile-class-switcher');
     
     console.log('renderClassNavigation called');
     console.log('classesList:', classesList);
     console.log('classNavElement:', classNavElement);
+    console.log('mobileClassNavElement:', mobileClassNavElement);
+    console.log('mobileClassSwitcher:', mobileClassSwitcher);
     
     // Get all classes from classesList (not just those with homework)
     const allClassNames = classesList.map(classItem => classItem.className);
@@ -1214,7 +1230,7 @@ function renderClassNavigation() {
         }))
     ];
     
-    // Always rebuild the navigation to ensure all classes are shown
+    // Desktop navigation
     classNavElement.innerHTML = navButtons.map(btn => `
         <button class="class-nav-btn" data-class="${btn.id}">
             ${btn.name}
@@ -1222,66 +1238,156 @@ function renderClassNavigation() {
         </button>
     `).join('');
     
-    // Add event listeners to class navigation buttons
-    classNavElement.addEventListener('click', (e) => {
-        if (e.target.classList.contains('class-nav-btn')) {
-            selectedClass = e.target.dataset.class;
-            updateClassNavigationActiveState();
-            updateHeaderClassSwitcher();
-            renderHomeworkList();
+    // Mobile navigation
+    const mobileClassNavButtons = document.getElementById('mobile-class-nav-buttons');
+    mobileClassNavButtons.innerHTML = navButtons.map(btn => `
+        <button class="mobile-class-nav-btn" data-class="${btn.id}">
+            <span class="class-name">${btn.name}</span>
+            <span class="class-count">${btn.count} assignments</span>
+        </button>
+    `).join('');
+    
+    // Update mobile class switcher
+    const activeButton = navButtons.find(btn => btn.id === selectedClass);
+    if (mobileClassSwitcher) {
+        const switcherText = mobileClassSwitcher.querySelector('.switcher-text');
+        if (switcherText) {
+            if (activeButton) {
+                switcherText.textContent = activeButton.name;
+                mobileClassSwitcher.classList.add('active');
+            } else {
+                switcherText.textContent = 'All Classes';
+                mobileClassSwitcher.classList.remove('active');
+            }
         }
-    });
+    }
+    
+    // Add event listeners to desktop class navigation buttons (only if not already added)
+    if (classNavElement && !classNavElement.hasAttribute('data-listeners-added')) {
+        classNavElement.addEventListener('click', (e) => {
+            if (e.target.classList.contains('class-nav-btn')) {
+                selectedClass = e.target.dataset.class;
+                updateClassNavigationActiveState();
+                renderHomeworkList();
+            }
+        });
+        classNavElement.setAttribute('data-listeners-added', 'true');
+    }
+    
+    // Add event listeners to mobile class navigation buttons (only if not already added)
+    if (mobileClassNavButtons && !mobileClassNavButtons.hasAttribute('data-listeners-added')) {
+        console.log('✅ Mobile class nav buttons found, adding event listener');
+        mobileClassNavButtons.addEventListener('click', (e) => {
+            console.log('📱 Mobile class nav button clicked:', e.target);
+            if (e.target.classList.contains('mobile-class-nav-btn')) {
+                console.log('📱 Valid mobile class nav button clicked, class:', e.target.dataset.class);
+                selectedClass = e.target.dataset.class;
+                updateClassNavigationActiveState();
+                renderHomeworkList();
+                // Close mobile nav after selection
+                if (mobileClassNavElement) {
+                    mobileClassNavElement.classList.remove('show');
+                }
+            }
+        });
+        mobileClassNavButtons.setAttribute('data-listeners-added', 'true');
+    } else if (!mobileClassNavButtons) {
+        console.error('❌ Mobile class nav buttons not found');
+    }
+    
+    // Add event listener to mobile class switcher (only if not already added)
+    if (mobileClassSwitcher && !mobileClassSwitcher.hasAttribute('data-listeners-added')) {
+        console.log('✅ Mobile class switcher found, adding event listener');
+        mobileClassSwitcher.addEventListener('click', () => {
+            console.log('📱 Mobile class switcher clicked');
+            // Toggle mobile class nav visibility
+            if (mobileClassNavElement) {
+                console.log('📱 Toggling mobile class nav visibility');
+                console.log('📱 Current classes:', mobileClassNavElement.className);
+                mobileClassNavElement.classList.toggle('show');
+                console.log('📱 After toggle classes:', mobileClassNavElement.className);
+                console.log('📱 Has show class:', mobileClassNavElement.classList.contains('show'));
+            } else {
+                console.error('❌ Mobile class nav element not found');
+            }
+        });
+        mobileClassSwitcher.setAttribute('data-listeners-added', 'true');
+    } else if (!mobileClassSwitcher) {
+        console.error('❌ Mobile class switcher not found');
+    }
+    
+    // Add event listener to close button (only if not already added)
+    const mobileClassNavClose = document.getElementById('mobile-class-nav-close');
+    if (mobileClassNavClose && !mobileClassNavClose.hasAttribute('data-listeners-added')) {
+        console.log('✅ Mobile class nav close button found, adding event listener');
+        mobileClassNavClose.addEventListener('click', () => {
+            console.log('📱 Mobile class nav close button clicked');
+            if (mobileClassNavElement) {
+                console.log('📱 Removing show class from mobile class nav');
+                mobileClassNavElement.classList.remove('show');
+                console.log('📱 After remove classes:', mobileClassNavElement.className);
+            } else {
+                console.error('❌ Mobile class nav element not found for close');
+            }
+        });
+        mobileClassNavClose.setAttribute('data-listeners-added', 'true');
+    } else if (!mobileClassNavClose) {
+        console.error('❌ Mobile class nav close button not found');
+    }
     
     // Update active state
     updateClassNavigationActiveState();
-    
-    // Update header class switcher
-    updateHeaderClassSwitcher();
-}
-
-function updateHeaderClassSwitcher() {
-    const headerSwitcher = document.getElementById('header-class-switcher');
-    if (!headerSwitcher) return;
-    
-    // Clear existing options
-    headerSwitcher.innerHTML = '';
-    
-    // Add "All Classes" option
-    const allOption = document.createElement('option');
-    allOption.value = 'all';
-    allOption.textContent = 'All Classes';
-    headerSwitcher.appendChild(allOption);
-    
-    // Add class options
-    classesList.forEach(classItem => {
-        const option = document.createElement('option');
-        option.value = classItem.className;
-        option.textContent = classItem.className;
-        headerSwitcher.appendChild(option);
-    });
-    
-    // Set current selection
-    headerSwitcher.value = selectedClass;
-    
-    // Add event listener for header switcher
-    headerSwitcher.addEventListener('change', (e) => {
-        selectedClass = e.target.value;
-        updateClassNavigationActiveState();
-        renderHomeworkList();
-    });
 }
 
 function updateClassNavigationActiveState() {
     const classNavElement = document.getElementById('classNav');
-    const buttons = classNavElement.querySelectorAll('.class-nav-btn');
+    const mobileClassNavElement = document.getElementById('mobileClassNav');
+    const mobileClassSwitcher = document.getElementById('mobile-class-switcher');
     
-    buttons.forEach(button => {
-        if (button.dataset.class === selectedClass) {
-            button.classList.add('active');
-        } else {
-            button.classList.remove('active');
+    // Update desktop navigation
+    if (classNavElement) {
+        const buttons = classNavElement.querySelectorAll('.class-nav-btn');
+        buttons.forEach(button => {
+            if (button.dataset.class === selectedClass) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+    }
+    
+    // Update mobile navigation
+    const mobileClassNavButtons = document.getElementById('mobile-class-nav-buttons');
+    if (mobileClassNavButtons) {
+        const mobileButtons = mobileClassNavButtons.querySelectorAll('.mobile-class-nav-btn');
+        mobileButtons.forEach(button => {
+            if (button.dataset.class === selectedClass) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+    }
+    
+    // Update mobile class switcher
+    if (mobileClassSwitcher) {
+        const switcherText = mobileClassSwitcher.querySelector('.switcher-text');
+        if (switcherText) {
+            const allButtons = [
+                ...(classNavElement ? classNavElement.querySelectorAll('.class-nav-btn') : []),
+                ...(mobileClassNavButtons ? mobileClassNavButtons.querySelectorAll('.mobile-class-nav-btn') : [])
+            ];
+            const activeButton = allButtons.find(btn => btn.dataset.class === selectedClass);
+            if (activeButton) {
+                const className = activeButton.querySelector('.class-name')?.textContent || activeButton.textContent.replace(/\s*\d+\s*assignments?\s*$/, '');
+                switcherText.textContent = className;
+                mobileClassSwitcher.classList.add('active');
+            } else {
+                switcherText.textContent = 'All Classes';
+                mobileClassSwitcher.classList.remove('active');
+            }
         }
-    });
+    }
 }
 
 function createHomeworkItemHTML(homework) {
@@ -1309,7 +1415,6 @@ function createHomeworkItemHTML(homework) {
         }
     }
     
-    
     // Determine neon status class
     let neonStatusClass = '';
     if (homework.dueDate) {
@@ -1327,41 +1432,118 @@ function createHomeworkItemHTML(homework) {
         }
     }
     
-    return `
-        <div class="homework-item ${homework.status} ${homework.priority || 'medium'}-priority ${isOverdue ? 'overdue' : ''} ${neonStatusClass}" data-id="${homework.id}">
-            <div class="homework-main">
-                <h3 class="homework-title">
-                    ${escapeHtml(homework.title)}
-                    ${homework.isWeekly ? '<span class="weekly-indicator" title="Weekly Assignment"><i class="fas fa-calendar-week"></i></span>' : ''}
-                </h3>
-                <span class="homework-subject">${escapeHtml(homework.subject)}</span>
+    // Check if mobile view
+    const isMobile = window.innerWidth < 768;
+    
+    if (isMobile) {
+        // Ultra-compact mobile card layout - only essential info
+        const today = new Date();
+        const due = homework.dueDate ? new Date(homework.dueDate) : null;
+        let priorityClass = '';
+        
+        if (due && homework.status !== 'completed') {
+            const diffTime = due - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays < 0) {
+                priorityClass = 'urgent';
+            } else if (diffDays === 0) {
+                priorityClass = 'due-today';
+            } else if (diffDays === 1) {
+                priorityClass = 'due-tomorrow';
+            }
+        }
+        
+        // Create abbreviated due date for mobile
+        let abbreviatedDueDate = dueDate;
+        if (homework.dueDate) {
+            const due = new Date(homework.dueDate);
+            const today = new Date();
+            const diffTime = due - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays < 0) {
+                abbreviatedDueDate = `${Math.abs(diffDays)}d ago`;
+            } else if (diffDays === 0) {
+                abbreviatedDueDate = 'Today';
+            } else if (diffDays === 1) {
+                abbreviatedDueDate = 'Tomorrow';
+            } else if (diffDays <= 7) {
+                abbreviatedDueDate = `${diffDays}d`;
+            } else {
+                // Show abbreviated date format like "12/25"
+                abbreviatedDueDate = `${due.getMonth() + 1}/${due.getDate()}`;
+            }
+        }
+        
+        return `
+            <div class="homework-item ${homework.status} ${priorityClass}" data-id="${homework.id}">
+                <div class="homework-card-content">
+                    <div class="homework-main-content">
+                        <h3 class="homework-title">${escapeHtml(homework.title)}</h3>
+                    </div>
+                    <div class="homework-meta-stack">
+                        <div class="homework-class">${escapeHtml(homework.subject)}</div>
+                        <div class="due-date-compact">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span class="due-date">${abbreviatedDueDate}</span>
+                        </div>
+                    </div>
+                    <div class="homework-actions">
+                        ${homework.status === 'pending' ? `
+                            <button class="homework-action-btn complete" data-id="${homework.id}" title="Mark Complete">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        ` : `
+                            <button class="homework-action-btn complete" data-id="${homework.id}" title="Mark Pending">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                        `}
+                        <button class="homework-action-btn edit" data-id="${homework.id}" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="due-date-main">
-                <div class="due-date ${isOverdue ? 'overdue' : ''}">${fullDueDate}</div>
-                <div class="days-until ${isOverdue ? 'overdue' : ''}">${daysUntilDue}</div>
-            </div>
-            <div class="homework-status">
-                <span class="status-badge ${homework.status}">${homework.status.replace('-', ' ')}</span>
-            </div>
-            <div class="homework-actions">
-                ${homework.status === 'pending' ? `
-                    <button class="action-btn complete-btn" data-id="${homework.id}" title="Mark as Completed">
-                        <i class="fas fa-check"></i>
+        `;
+    } else {
+        // Desktop layout (original)
+        return `
+            <div class="homework-item ${homework.status} ${homework.priority || 'medium'}-priority ${isOverdue ? 'overdue' : ''} ${neonStatusClass}" data-id="${homework.id}">
+                <div class="homework-main">
+                    <h3 class="homework-title">
+                        ${escapeHtml(homework.title)}
+                        ${homework.isWeekly ? '<span class="weekly-indicator" title="Weekly Assignment"><i class="fas fa-calendar-week"></i></span>' : ''}
+                    </h3>
+                    <span class="homework-subject">${escapeHtml(homework.subject)}</span>
+                </div>
+                <div class="due-date-main">
+                    <div class="due-date ${isOverdue ? 'overdue' : ''}">${fullDueDate}</div>
+                    <div class="days-until ${isOverdue ? 'overdue' : ''}">${daysUntilDue}</div>
+                </div>
+                <div class="homework-status">
+                    <span class="status-badge ${homework.status}">${homework.status.replace('-', ' ')}</span>
+                </div>
+                <div class="homework-actions">
+                    ${homework.status === 'pending' ? `
+                        <button class="action-btn complete-btn" data-id="${homework.id}" title="Mark as Completed">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    ` : `
+                        <button class="action-btn uncomplete-btn" data-id="${homework.id}" title="Mark as Pending">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                    `}
+                    <button class="action-btn edit-btn" data-id="${homework.id}" title="Edit">
+                        <i class="fas fa-edit"></i>
                     </button>
-                ` : `
-                    <button class="action-btn uncomplete-btn" data-id="${homework.id}" title="Mark as Pending">
-                        <i class="fas fa-undo"></i>
+                    <button class="action-btn delete-btn" data-id="${homework.id}" title="Delete">
+                        <i class="fas fa-trash"></i>
                     </button>
-                `}
-                <button class="action-btn edit-btn" data-id="${homework.id}" title="Edit">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="action-btn delete-btn" data-id="${homework.id}" title="Delete">
-                    <i class="fas fa-trash"></i>
-                </button>
+                </div>
             </div>
-        </div>
-    `;
+        `;
+    }
 }
 
 function addActionButtonListeners() {
@@ -1376,7 +1558,8 @@ function addActionButtonListeners() {
 }
 
 function handleActionButtonClick(e) {
-    const actionBtn = e.target.closest('.action-btn');
+    // Handle both desktop (.action-btn) and mobile (.homework-action-btn) buttons
+    const actionBtn = e.target.closest('.action-btn') || e.target.closest('.homework-action-btn');
     if (!actionBtn) return;
     
     const id = actionBtn.dataset.id;
@@ -1387,16 +1570,16 @@ function handleActionButtonClick(e) {
     
     console.log('Action button clicked:', actionBtn.classList.toString(), 'ID:', id);
     
-    if (actionBtn.classList.contains('complete-btn')) {
+    if (actionBtn.classList.contains('complete-btn') || actionBtn.classList.contains('complete')) {
         console.log('Complete button clicked for ID:', id);
         markHomeworkCompleted(id);
-    } else if (actionBtn.classList.contains('uncomplete-btn')) {
+    } else if (actionBtn.classList.contains('uncomplete-btn') || actionBtn.classList.contains('uncomplete')) {
         console.log('Uncomplete button clicked for ID:', id);
         markHomeworkPending(id);
-    } else if (actionBtn.classList.contains('edit-btn')) {
+    } else if (actionBtn.classList.contains('edit-btn') || actionBtn.classList.contains('edit')) {
         console.log('Edit button clicked for ID:', id);
         editHomework(id);
-    } else if (actionBtn.classList.contains('delete-btn')) {
+    } else if (actionBtn.classList.contains('delete-btn') || actionBtn.classList.contains('delete')) {
         console.log('Delete button clicked for ID:', id);
         deleteHomework(id);
     }
@@ -2402,134 +2585,3 @@ function cleanupCelebrationElements() {
     
     console.log('🧹 Celebration animation cleanup completed');
 }
-
-// ========================================
-// FLOATING ACTION BUTTON (FAB) FUNCTIONALITY
-// ========================================
-
-// Initialize FAB functionality
-function initializeFAB() {
-    const fabContainer = document.querySelector('.fab-container');
-    const fabPrimary = document.getElementById('fab-add-homework');
-    const fabSecondary = document.getElementById('fab-add-weekly');
-    
-    if (!fabContainer || !fabPrimary || !fabSecondary) {
-        console.warn('⚠️ FAB elements not found');
-        return;
-    }
-    
-    // Primary FAB click - Add Homework
-    fabPrimary.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (fabContainer.classList.contains('expanded')) {
-            // Close menu
-            fabContainer.classList.remove('expanded');
-        } else {
-            // Open Add Homework modal directly
-            openAddHomeworkModal();
-        }
-    });
-    
-    // Secondary FAB click - Add Weekly Assignment
-    fabSecondary.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openAddWeeklyHomeworkModal();
-        fabContainer.classList.remove('expanded');
-    });
-    
-    // Long press for secondary menu
-    let longPressTimer;
-    fabPrimary.addEventListener('mousedown', () => {
-        longPressTimer = setTimeout(() => {
-            fabContainer.classList.add('expanded');
-        }, 500);
-    });
-    
-    fabPrimary.addEventListener('mouseup', () => {
-        clearTimeout(longPressTimer);
-    });
-    
-    fabPrimary.addEventListener('mouseleave', () => {
-        clearTimeout(longPressTimer);
-    });
-    
-    // Touch events for mobile
-    fabPrimary.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        longPressTimer = setTimeout(() => {
-            fabContainer.classList.add('expanded');
-        }, 500);
-    });
-    
-    fabPrimary.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        clearTimeout(longPressTimer);
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!fabContainer.contains(e.target)) {
-            fabContainer.classList.remove('expanded');
-        }
-    });
-    
-    console.log('✅ FAB functionality initialized');
-}
-
-// Initialize FAB when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeFAB);
-
-// ========================================
-// BOTTOM NAVIGATION FUNCTIONALITY
-// ========================================
-
-// Initialize bottom navigation
-function initializeBottomNav() {
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const page = e.currentTarget.dataset.page;
-            navigateToPage(page);
-        });
-    });
-    
-    console.log('✅ Bottom navigation initialized');
-}
-
-// Navigate to different pages
-function navigateToPage(page) {
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    // Update active state
-    navItems.forEach(item => {
-        item.classList.remove('active');
-        if (item.dataset.page === page) {
-            item.classList.add('active');
-        }
-    });
-    
-    // Handle page navigation
-    switch(page) {
-        case 'home':
-            // Already on home page
-            break;
-        case 'classes':
-            openManageClassesModal();
-            break;
-        case 'add':
-            openAddHomeworkModal();
-            break;
-        case 'settings':
-            // Open settings modal (if it exists) or show theme selector
-            const themeToggle = document.getElementById('theme-toggle');
-            if (themeToggle) {
-                themeToggle.click();
-            }
-            break;
-    }
-}
-
-// Initialize bottom navigation when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeBottomNav);
