@@ -12,68 +12,52 @@
     <!-- Testing Indicator - Remove after testing -->
     <div id="view-indicator" class="view-indicator"></div>
     
-    <!-- Theme Selector Dropdown -->
-    <div class="theme-selector">
-        <button id="theme-toggle" class="theme-toggle-btn" title="Theme options">
-            <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-        </button>
+    <!-- Theme Dropdown (positioned relative to header button) -->
+    <div class="theme-dropdown" id="theme-dropdown">
+        <div class="theme-option" data-theme="light">
+            <div class="theme-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </div>
+            <span class="theme-label">Light</span>
+            <div class="theme-check">
+                <i class="fas fa-check"></i>
+            </div>
+        </div>
         
-        <div class="theme-dropdown" id="theme-dropdown">
-            <div class="theme-option" data-theme="light">
-                <div class="theme-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </div>
-                <span class="theme-label">Light</span>
-                <div class="theme-check">
-                    <i class="fas fa-check"></i>
-                </div>
+        <div class="theme-option" data-theme="dark">
+            <div class="theme-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
             </div>
-            
-            <div class="theme-option" data-theme="dark">
-                <div class="theme-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </div>
-                <span class="theme-label">Dark</span>
-                <div class="theme-check">
-                    <i class="fas fa-check"></i>
-                </div>
+            <span class="theme-label">Dark</span>
+            <div class="theme-check">
+                <i class="fas fa-check"></i>
             </div>
-            
-            <div class="theme-option active" data-theme="auto">
-                <div class="theme-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
-                        <path d="M20.2 3.8L16.8 7.2m-9.6 9.6L3.8 20.2"></path>
-                        <path d="M3.8 3.8L7.2 7.2m9.6 9.6L20.2 20.2"></path>
-                    </svg>
-                </div>
-                <span class="theme-label">Auto</span>
-                <div class="theme-check">
-                    <i class="fas fa-check"></i>
-                </div>
+        </div>
+        
+        <div class="theme-option active" data-theme="auto">
+            <div class="theme-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
+                    <path d="M20.2 3.8L16.8 7.2m-9.6 9.6L3.8 20.2"></path>
+                    <path d="M3.8 3.8L7.2 7.2m9.6 9.6L20.2 20.2"></path>
+                </svg>
+            </div>
+            <span class="theme-label">Auto</span>
+            <div class="theme-check">
+                <i class="fas fa-check"></i>
             </div>
         </div>
     </div>
@@ -105,6 +89,19 @@
                     <div class="user-info">
                         <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
                         <span id="user-name" class="user-name"></span>
+                        <button id="theme-toggle" class="theme-toggle-btn" title="Theme options">
+                            <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
                         <button id="signout-btn" class="signout-btn">
                             <i class="fas fa-sign-out-alt"></i>
                             <span class="signout-text">Sign Out</span>
