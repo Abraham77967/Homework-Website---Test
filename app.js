@@ -1181,7 +1181,6 @@ function renderHomeworkList() {
     addActionButtonListeners();
 }
 
-
 // Enhanced mobile touch feedback
 function addMobileTouchFeedback() {
     if (window.innerWidth >= 768) return;
