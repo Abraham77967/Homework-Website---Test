@@ -1179,29 +1179,8 @@ function renderHomeworkList() {
     
     // Add event listeners to action buttons
     addActionButtonListeners();
-    
-    // Trigger mobile entrance animations for new items
-    triggerMobileEntranceAnimations();
 }
 
-// Mobile-specific animation triggers
-function triggerMobileEntranceAnimations() {
-    // Only trigger on mobile devices
-    if (window.innerWidth >= 768) return;
-    
-    const homeworkItems = document.querySelectorAll('.homework-item');
-    homeworkItems.forEach((item, index) => {
-        // Reset any existing animations
-        item.style.animation = 'none';
-        item.offsetHeight; // Trigger reflow
-        item.style.animation = null;
-        
-        // Add staggered entrance animation
-        item.style.animation = `slideInFromRight 0.4s cubic-bezier(0.4, 0, 0.2, 1)`;
-        item.style.animationDelay = `${0.1 + (index * 0.05)}s`;
-        item.style.animationFillMode = 'both';
-    });
-}
 
 // Enhanced mobile touch feedback
 function addMobileTouchFeedback() {
