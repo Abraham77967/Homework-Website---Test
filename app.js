@@ -1163,9 +1163,8 @@ function renderHomeworkList() {
     
     homeworkListElement.innerHTML = html;
     
-    // Apply mobile animations
+    // Apply animation class only when switching classes
     if (isClassSwitching) {
-        // Class switching animation
         homeworkListElement.classList.add('animate-homework-items');
         // Remove the class after animation completes
         setTimeout(() => {
