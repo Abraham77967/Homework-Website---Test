@@ -22,7 +22,6 @@ let classesList = [];
 let selectedClass = 'all';
 let unsubscribe = null;
 let classesUnsubscribe = null;
-let isClassChange = false; // Flag to track if this is a class change vs other re-render
 
 // Testing function - View indicator
 function updateViewIndicator() {
@@ -42,7 +41,6 @@ window.addEventListener('resize', () => {
     updateViewIndicator();
     // Re-render homework list when switching between mobile/desktop
     if (homeworkList && homeworkList.length > 0) {
-        isClassChange = false; // This is not a class change, just a resize
         renderHomeworkList();
     }
 });
@@ -1109,7 +1107,7 @@ function renderHomeworkList() {
                     </div>
                 </div>
                 <div class="homework-section-content">
-                    ${pendingHomework.map(homework => createHomeworkItemHTML(homework, isClassChange)).join('')}
+                    ${pendingHomework.map(homework => createHomeworkItemHTML(homework)).join('')}
                 </div>
             </div>
         `;
@@ -1139,7 +1137,7 @@ function renderHomeworkList() {
                     </div>
                 </div>
                 <div class="homework-section-content">
-                    ${recentCompleted.map(homework => createHomeworkItemHTML(homework, isClassChange)).join('')}
+                    ${recentCompleted.map(homework => createHomeworkItemHTML(homework)).join('')}
                 </div>
             </div>
         `;
@@ -1162,8 +1160,6 @@ function renderHomeworkList() {
     // Add event listeners to action buttons
     addActionButtonListeners();
     
-    // Reset the class change flag after rendering
-    isClassChange = false;
 }
 
 function getVisibleHomeworkCount(homeworkArray) {
@@ -1273,7 +1269,6 @@ function renderClassNavigation() {
             const button = e.target.closest('.class-nav-btn');
             if (button) {
                 selectedClass = button.dataset.class;
-                isClassChange = true; // This is a class change, allow animation
                 updateClassNavigationActiveState();
                 renderHomeworkList();
             }
@@ -1290,7 +1285,6 @@ function renderClassNavigation() {
             if (button) {
                 console.log('📱 Valid mobile class nav button clicked, class:', button.dataset.class);
                 selectedClass = button.dataset.class;
-                isClassChange = true; // This is a class change, allow animation
                 updateClassNavigationActiveState();
                 renderHomeworkList();
                 // Close mobile nav after selection
@@ -1399,7 +1393,7 @@ function updateClassNavigationActiveState() {
     }
 }
 
-function createHomeworkItemHTML(homework, shouldAnimate = false) {
+function createHomeworkItemHTML(homework) {
     const dueDate = homework.dueDate ? new Date(homework.dueDate).toLocaleDateString() : 'No date';
     const timeDisplay = homework.dueTime ? formatTimeForDisplay(homework.dueTime) : '';
     const fullDueDate = timeDisplay ? `${dueDate} at ${timeDisplay}` : dueDate;
@@ -1486,7 +1480,7 @@ function createHomeworkItemHTML(homework, shouldAnimate = false) {
         }
         
         return `
-            <div class="homework-item ${homework.status} ${priorityClass}${shouldAnimate ? ' animate-in' : ''}" data-id="${homework.id}">
+            <div class="homework-item ${homework.status} ${priorityClass}" data-id="${homework.id}">
                 <div class="homework-card-content">
                     <div class="homework-main-content">
                         <h3 class="homework-title">${escapeHtml(homework.title)}</h3>
@@ -1518,7 +1512,7 @@ function createHomeworkItemHTML(homework, shouldAnimate = false) {
     } else {
         // Desktop layout (original)
         return `
-            <div class="homework-item ${homework.status} ${homework.priority || 'medium'}-priority ${isOverdue ? 'overdue' : ''} ${neonStatusClass}${shouldAnimate ? ' animate-in' : ''}" data-id="${homework.id}">
+            <div class="homework-item ${homework.status} ${homework.priority || 'medium'}-priority ${isOverdue ? 'overdue' : ''} ${neonStatusClass}" data-id="${homework.id}">
                 <div class="homework-main">
                     <h3 class="homework-title">
                         ${escapeHtml(homework.title)}
