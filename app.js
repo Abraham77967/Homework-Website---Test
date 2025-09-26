@@ -177,6 +177,9 @@ function initializeApp() {
     // Set up event listeners
     setupEventListeners();
     
+    // Initialize mobile touch feedback
+    addMobileTouchFeedback();
+    
     // Listen for authentication state changes
     auth.onAuthStateChanged(handleAuthStateChange);
 }
@@ -1160,8 +1163,9 @@ function renderHomeworkList() {
     
     homeworkListElement.innerHTML = html;
     
-    // Apply animation class only when switching classes
+    // Apply mobile animations
     if (isClassSwitching) {
+        // Class switching animation
         homeworkListElement.classList.add('animate-homework-items');
         // Remove the class after animation completes
         setTimeout(() => {
@@ -1176,6 +1180,53 @@ function renderHomeworkList() {
     
     // Add event listeners to action buttons
     addActionButtonListeners();
+    
+    // Trigger mobile entrance animations for new items
+    triggerMobileEntranceAnimations();
+}
+
+// Mobile-specific animation triggers
+function triggerMobileEntranceAnimations() {
+    // Only trigger on mobile devices
+    if (window.innerWidth >= 768) return;
+    
+    const homeworkItems = document.querySelectorAll('.homework-item');
+    homeworkItems.forEach((item, index) => {
+        // Reset any existing animations
+        item.style.animation = 'none';
+        item.offsetHeight; // Trigger reflow
+        item.style.animation = null;
+        
+        // Add staggered entrance animation
+        item.style.animation = `slideInFromRight 0.4s cubic-bezier(0.4, 0, 0.2, 1)`;
+        item.style.animationDelay = `${0.1 + (index * 0.05)}s`;
+        item.style.animationFillMode = 'both';
+    });
+}
+
+// Enhanced mobile touch feedback
+function addMobileTouchFeedback() {
+    if (window.innerWidth >= 768) return;
+    
+    // Add touch feedback to all interactive elements
+    const interactiveElements = document.querySelectorAll(
+        '.homework-item, .homework-action-btn, .mobile-fab, .mobile-class-switcher, .mobile-class-nav-btn'
+    );
+    
+    interactiveElements.forEach(element => {
+        element.addEventListener('touchstart', function(e) {
+            this.style.transition = 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1)';
+            this.style.transform = 'scale(0.98)';
+        });
+        
+        element.addEventListener('touchend', function(e) {
+            this.style.transform = 'scale(1)';
+        });
+        
+        element.addEventListener('touchcancel', function(e) {
+            this.style.transform = 'scale(1)';
+        });
+    });
 }
 
 function getVisibleHomeworkCount(homeworkArray) {
@@ -1299,12 +1350,22 @@ function renderClassNavigation() {
             console.log('📱 Mobile class nav button clicked:', e.target);
             if (e.target.classList.contains('mobile-class-nav-btn')) {
                 console.log('📱 Valid mobile class nav button clicked, class:', e.target.dataset.class);
+                
+                // Add selection animation
+                e.target.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                e.target.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    e.target.style.transform = 'scale(1)';
+                }, 200);
+                
                 selectedClass = e.target.dataset.class;
                 updateClassNavigationActiveState();
                 isClassSwitching = true; // Enable animations for class switching
                 renderHomeworkList();
-                // Close mobile nav after selection
+                
+                // Close mobile nav after selection with animation
                 if (mobileClassNavElement) {
+                    mobileClassNavElement.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                     mobileClassNavElement.classList.remove('show');
                 }
             }
@@ -1319,11 +1380,21 @@ function renderClassNavigation() {
         console.log('✅ Mobile class switcher found, adding event listener');
         mobileClassSwitcher.addEventListener('click', () => {
             console.log('📱 Mobile class switcher clicked');
-            // Toggle mobile class nav visibility
+            // Toggle mobile class nav visibility with smooth animation
             if (mobileClassNavElement) {
                 console.log('📱 Toggling mobile class nav visibility');
                 console.log('📱 Current classes:', mobileClassNavElement.className);
-                mobileClassNavElement.classList.toggle('show');
+                
+                if (mobileClassNavElement.classList.contains('show')) {
+                    // Closing animation
+                    mobileClassNavElement.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    mobileClassNavElement.classList.remove('show');
+                } else {
+                    // Opening animation
+                    mobileClassNavElement.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    mobileClassNavElement.classList.add('show');
+                }
+                
                 console.log('📱 After toggle classes:', mobileClassNavElement.className);
                 console.log('📱 Has show class:', mobileClassNavElement.classList.contains('show'));
             } else {
@@ -1343,6 +1414,8 @@ function renderClassNavigation() {
             console.log('📱 Mobile class nav close button clicked');
             if (mobileClassNavElement) {
                 console.log('📱 Removing show class from mobile class nav');
+                // Add smooth closing animation
+                mobileClassNavElement.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                 mobileClassNavElement.classList.remove('show');
                 console.log('📱 After remove classes:', mobileClassNavElement.className);
             } else {
@@ -1514,7 +1587,7 @@ function createHomeworkItemHTML(homework) {
                                 <i class="fas fa-check"></i>
                             </button>
                         ` : `
-                            <button class="homework-action-btn complete" data-id="${homework.id}" title="Mark Pending">
+                            <button class="homework-action-btn uncomplete" data-id="${homework.id}" title="Mark Pending">
                                 <i class="fas fa-undo"></i>
                             </button>
                         `}
@@ -1808,6 +1881,15 @@ function markHomeworkCompleted(id) {
     // Trigger celebration animation immediately for responsive feedback
     triggerCelebrationAnimation();
     
+    // Add mobile completion animation
+    const homeworkElement = document.querySelector(`[data-id="${id}"]`);
+    if (homeworkElement) {
+        homeworkElement.classList.add('completing');
+        setTimeout(() => {
+            homeworkElement.classList.remove('completing');
+        }, 800);
+    }
+    
     // Find the homework item to check if it's weekly
     const homeworkItem = homeworkList.find(h => h.id === id);
     
@@ -1905,6 +1987,15 @@ function createNextWeekAssignment(completedHomework) {
 
 function markHomeworkPending(id) {
     console.log('markHomeworkPending called with ID:', id);
+    
+    // Add mobile status change animation
+    const homeworkElement = document.querySelector(`[data-id="${id}"]`);
+    if (homeworkElement) {
+        homeworkElement.classList.add('status-changing');
+        setTimeout(() => {
+            homeworkElement.classList.remove('status-changing');
+        }, 600);
+    }
     
     showLoading(true);
     

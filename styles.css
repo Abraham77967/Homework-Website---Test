@@ -3233,15 +3233,445 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         border-color: #6b7280;
     }
     
-    /* Mobile touch interactions */
+    /* ========================================
+       MOBILE ANIMATIONS & TRANSITIONS
+       ======================================== */
+    
+    /* Mobile touch interactions with enhanced feedback */
+    .homework-item {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+    }
+    
     .homework-item:active {
         transform: scale(0.98);
-        transition: transform 0.1s ease;
+        transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .homework-item:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Enhanced button animations */
+    .homework-action-btn {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+        position: relative;
+        overflow: hidden;
     }
     
     .homework-action-btn:active {
         transform: scale(0.9);
         transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .homework-action-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Ripple effect for buttons */
+    .homework-action-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.3s ease, height 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .homework-action-btn:active::before {
+        width: 100px;
+        height: 100px;
+    }
+    
+    /* Floating Action Button Enhanced Animations */
+    .mobile-fab {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .mobile-fab:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 8px 25px rgba(147, 51, 234, 0.6);
+    }
+    
+    .mobile-fab:active {
+        transform: scale(0.95);
+        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* FAB pulse animation */
+    .mobile-fab::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%) scale(0);
+        animation: fabPulse 2s infinite;
+        pointer-events: none;
+    }
+    
+    @keyframes fabPulse {
+        0% {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0;
+        }
+    }
+    
+    /* Mobile Class Switcher Animations */
+    .mobile-class-switcher {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+    }
+    
+    .mobile-class-switcher:active {
+        transform: scale(0.95);
+        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .mobile-class-switcher:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Mobile Class Navigation Animations */
+    .mobile-class-nav {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    
+    .mobile-class-nav.show {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    
+    .mobile-class-nav-close {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+    }
+    
+    .mobile-class-nav-close:active {
+        transform: scale(0.9) rotate(90deg);
+    }
+    
+    .mobile-class-nav-close:hover {
+        transform: scale(1.1);
+    }
+    
+    /* Homework List Animations */
+    .homework-list {
+        animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Individual homework item entrance animation */
+    .homework-item {
+        animation: slideInFromRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        animation-fill-mode: both;
+    }
+    
+    .homework-item:nth-child(1) { animation-delay: 0.1s; }
+    .homework-item:nth-child(2) { animation-delay: 0.15s; }
+    .homework-item:nth-child(3) { animation-delay: 0.2s; }
+    .homework-item:nth-child(4) { animation-delay: 0.25s; }
+    .homework-item:nth-child(5) { animation-delay: 0.3s; }
+    .homework-item:nth-child(6) { animation-delay: 0.35s; }
+    .homework-item:nth-child(7) { animation-delay: 0.4s; }
+    .homework-item:nth-child(8) { animation-delay: 0.45s; }
+    .homework-item:nth-child(9) { animation-delay: 0.5s; }
+    .homework-item:nth-child(10) { animation-delay: 0.55s; }
+    
+    @keyframes slideInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    /* Status change animations */
+    .homework-item.status-changing {
+        animation: statusChange 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes statusChange {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+    
+    /* Completion celebration animation */
+    .homework-item.completing {
+        animation: completionCelebration 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes completionCelebration {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+        }
+        50% {
+            transform: scale(1.02) rotate(-1deg);
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.7);
+        }
+        75% {
+            transform: scale(1.01) rotate(0.5deg);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+    
+    /* Page transition animations */
+    .app-section {
+        animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Header animations */
+    .header {
+        animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Section animations */
+    .homework-section {
+        animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        animation-fill-mode: both;
+    }
+    
+    .homework-section:nth-child(1) { animation-delay: 0.1s; }
+    .homework-section:nth-child(2) { animation-delay: 0.2s; }
+    .homework-section:nth-child(3) { animation-delay: 0.3s; }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    /* ========================================
+       ADDITIONAL MOBILE ANIMATIONS
+       ======================================== */
+    
+    /* Mobile loading animations */
+    .homework-list.loading {
+        animation: mobileLoadingPulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes mobileLoadingPulse {
+        0%, 100% {
+            opacity: 0.6;
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+    
+    /* Mobile swipe gestures visual feedback */
+    .homework-item.swiping {
+        transform: translateX(20px);
+        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Mobile button press ripple effect */
+    .homework-action-btn.ripple::before {
+        animation: rippleEffect 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes rippleEffect {
+        0% {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+        }
+    }
+    
+    /* Mobile modal slide animations */
+    .modal.mobile-slide-in .modal-content {
+        animation: mobileModalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes mobileModalSlideIn {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    /* Mobile success feedback */
+    .homework-item.success-feedback {
+        animation: mobileSuccessFeedback 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes mobileSuccessFeedback {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        25% {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+        }
+        75% {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+    
+    /* Mobile error feedback */
+    .homework-item.error-feedback {
+        animation: mobileErrorFeedback 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes mobileErrorFeedback {
+        0% {
+            transform: translateX(0);
+        }
+        25% {
+            transform: translateX(-5px);
+        }
+        75% {
+            transform: translateX(5px);
+        }
+        100% {
+            transform: translateX(0);
+        }
+    }
+    
+    /* Mobile list refresh animation */
+    .homework-list.refreshing {
+        animation: mobileListRefresh 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes mobileListRefresh {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(-10px);
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    /* Mobile floating action button bounce */
+    .mobile-fab.bounce {
+        animation: mobileFabBounce 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes mobileFabBounce {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+    }
+    
+    /* Mobile class switcher active state */
+    .mobile-class-switcher.active {
+        animation: mobileClassSwitcherActive 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes mobileClassSwitcherActive {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
     }
     
     /* Mobile Homework List - Ultra Efficient */
@@ -3427,7 +3857,25 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         transform: scale(0.95);
     }
     
-    /* Mobile Modals */
+    /* ========================================
+       MOBILE MODAL ANIMATIONS
+       ======================================== */
+    
+    /* Modal backdrop animation */
+    .modal {
+        animation: modalBackdropFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes modalBackdropFadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    /* Mobile Modals with enhanced animations */
     .modal-content {
         width: 100%;
         height: 100%;
@@ -3441,6 +3889,19 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         right: 0;
         bottom: 0;
         overflow-y: auto;
+        animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: bottom;
+    }
+    
+    @keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
     
     .modal-header {
@@ -3449,10 +3910,127 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         background: var(--bg-primary);
         border-bottom: 1px solid var(--border-color);
         z-index: 10;
+        animation: modalHeaderSlideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        animation-delay: 0.1s;
+        animation-fill-mode: both;
+    }
+    
+    @keyframes modalHeaderSlideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
     
     .modal-body {
         padding: 20px;
+        animation: modalBodyFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        animation-delay: 0.2s;
+        animation-fill-mode: both;
+    }
+    
+    @keyframes modalBodyFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Form field animations */
+    .form-group {
+        animation: formFieldSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        animation-fill-mode: both;
+    }
+    
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.15s; }
+    .form-group:nth-child(3) { animation-delay: 0.2s; }
+    .form-group:nth-child(4) { animation-delay: 0.25s; }
+    .form-group:nth-child(5) { animation-delay: 0.3s; }
+    .form-group:nth-child(6) { animation-delay: 0.35s; }
+    .form-group:nth-child(7) { animation-delay: 0.4s; }
+    .form-group:nth-child(8) { animation-delay: 0.45s; }
+    
+    @keyframes formFieldSlideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    /* Form input focus animations */
+    .form-neon-bar:focus {
+        animation: inputFocusGlow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes inputFocusGlow {
+        0% {
+            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+        }
+        50% {
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+        }
+    }
+    
+    /* Button animations in modals */
+    .modal-actions {
+        animation: modalActionsSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        animation-delay: 0.3s;
+        animation-fill-mode: both;
+    }
+    
+    @keyframes modalActionsSlideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .submit-btn, .cancel-btn {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+    }
+    
+    .submit-btn:active, .cancel-btn:active {
+        transform: scale(0.95);
+    }
+    
+    .submit-btn:hover, .cancel-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Close button animations */
+    .modal-close-btn {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+    }
+    
+    .modal-close-btn:active {
+        transform: scale(0.9) rotate(90deg);
+    }
+    
+    .modal-close-btn:hover {
+        transform: scale(1.1);
     }
     
     /* Mobile Forms */
