@@ -304,35 +304,15 @@ body {
     min-width: 160px;
     overflow: hidden;
     opacity: 0;
-    transform: translateY(-20px) scale(0.9);
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
-    will-change: transform, opacity;
 }
 
 .theme-dropdown.show {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
     pointer-events: auto;
-    animation: themeDropdownSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes themeDropdownSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.9) rotateX(-10deg);
-        filter: blur(4px);
-    }
-    50% {
-        opacity: 0.8;
-        transform: translateY(-5px) scale(0.95) rotateX(-5deg);
-        filter: blur(2px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1) rotateX(0deg);
-        filter: blur(0px);
-    }
 }
 
 .theme-option {
@@ -341,23 +321,8 @@ body {
     gap: 12px;
     padding: 12px 16px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-bottom: 1px solid var(--border-secondary);
-    position: relative;
-    overflow: hidden;
-    will-change: transform, background;
-    transform: translateZ(0);
-}
-
-.theme-option::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.1), transparent);
-    transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .theme-option:last-child {
@@ -366,19 +331,6 @@ body {
 
 .theme-option:hover {
     background: var(--bg-hover);
-    transform: translateX(4px);
-    box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.theme-option:hover::before {
-    left: 100%;
-}
-
-.theme-option:active {
-    transform: translateX(2px) scale(0.98);
-    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Ensure dark mode button doesn't get dark background on hover in light mode */
@@ -565,8 +517,7 @@ body {
     z-index: 100;
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-sm);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    will-change: background-color, border-color, box-shadow;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header-content {
@@ -577,36 +528,22 @@ body {
     justify-content: space-between;
     align-items: center;
     opacity: 0;
-    transform: translateY(-30px) scale(0.95);
-    animation: slideInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
-    will-change: transform, opacity;
+    transform: translateY(-15px);
+    animation: slideInDown 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
 }
 
 @keyframes slideInDown {
     0% { 
         opacity: 0; 
-        transform: translateY(-30px) scale(0.95) rotateX(-10deg);
-        filter: blur(4px);
-    }
-    30% {
-        opacity: 0.6;
-        transform: translateY(-15px) scale(0.97) rotateX(-5deg);
-        filter: blur(2px);
+        transform: translateY(-15px) scale(0.98); 
     }
     60% {
         opacity: 0.9;
-        transform: translateY(-5px) scale(0.99) rotateX(0deg);
-        filter: blur(1px);
-    }
-    80% {
-        opacity: 1;
-        transform: translateY(2px) scale(1.01) rotateX(0deg);
-        filter: blur(0px);
+        transform: translateY(-3px) scale(0.99);
     }
     100% { 
         opacity: 1; 
-        transform: translateY(0) scale(1) rotateX(0deg);
-        filter: blur(0px);
+        transform: translateY(0) scale(1); 
     }
 }
 
@@ -2599,6 +2536,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         gap: 8px;
         flex-shrink: 0;
         position: relative;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(0);
     }
     
     .user-avatar {
@@ -2650,30 +2589,19 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         cursor: pointer;
         font-weight: 500;
         font-size: 0.8rem;
-        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        will-change: transform, box-shadow, background;
-        transform: translateZ(0);
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         width: 36px;
         height: 36px;
         flex-shrink: 0;
-        position: relative;
-        overflow: hidden;
     }
     
     .theme-toggle-btn:hover {
         background: var(--bg-hover);
-        transform: translateY(-2px) scale(1.05);
-        box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.15),
-            0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    
-    .theme-toggle-btn:active {
-        transform: translateY(0) scale(0.95);
-        transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
     }
     
     .theme-toggle-btn svg {
@@ -2692,6 +2620,16 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         transform: none !important;
         z-index: 1001 !important;
         margin-top: 0 !important;
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+    
+    .theme-dropdown.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
     }
     
     /* Mobile Class Switcher - REDESIGNED */
@@ -2706,15 +2644,14 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         width: 100%;
         text-align: center;
         cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        will-change: transform, box-shadow, background;
-        transform: translateZ(0);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 12px;
         position: relative;
         overflow: hidden;
+        transform: translateY(0);
         backdrop-filter: blur(20px);
         box-shadow: 
             0 4px 16px rgba(0, 0, 0, 0.08),
@@ -2749,11 +2686,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     .mobile-class-switcher:hover {
         border-color: rgba(147, 51, 234, 0.3);
         background: rgba(255, 255, 255, 0.95);
-        transform: translateY(-3px) scale(1.02);
+        transform: translateY(-2px) scale(1.01);
         box-shadow: 
-            0 12px 35px rgba(147, 51, 234, 0.2),
-            0 6px 20px rgba(0, 0, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            0 8px 25px rgba(147, 51, 234, 0.15),
+            0 4px 12px rgba(0, 0, 0, 0.1);
     }
     
     .mobile-class-switcher:hover::before {
@@ -2775,8 +2711,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     }
     
     .mobile-class-switcher:active {
-        transform: translateY(-1px) scale(0.96);
-        transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(0) scale(0.98);
     }
     
     /* Dark theme adjustments for switcher */
@@ -2828,43 +2763,29 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         position: relative;
         z-index: 50;
         opacity: 0;
-        transform: translateY(-30px) scale(0.9);
-        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        will-change: transform, opacity;
+        transform: translateY(-15px) scale(0.96);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .mobile-class-nav.show {
         display: block;
         opacity: 1;
         transform: translateY(0) scale(1);
-        animation: mobileNavSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        animation: mobileNavSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     
     @keyframes mobileNavSlideIn {
         0% {
             opacity: 0;
-            transform: translateY(-30px) scale(0.9) rotateX(-10deg);
-            filter: blur(4px);
-        }
-        30% {
-            opacity: 0.6;
-            transform: translateY(-15px) scale(0.95) rotateX(-5deg);
-            filter: blur(2px);
+            transform: translateY(-15px) scale(0.96);
         }
         60% {
             opacity: 0.9;
-            transform: translateY(-5px) scale(0.98) rotateX(0deg);
-            filter: blur(1px);
-        }
-        80% {
-            opacity: 1;
-            transform: translateY(2px) scale(1.02) rotateX(0deg);
-            filter: blur(0px);
+            transform: translateY(-3px) scale(0.99);
         }
         100% {
             opacity: 1;
-            transform: translateY(0) scale(1) rotateX(0deg);
-            filter: blur(0px);
+            transform: translateY(0) scale(1);
         }
     }
     
@@ -2970,11 +2891,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         font-weight: 500;
         text-align: center;
         cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        will-change: transform, box-shadow, background;
-        transform: translateZ(0);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
+        transform: translateY(0);
         backdrop-filter: blur(10px);
         display: flex;
         flex-direction: column;
@@ -3000,11 +2920,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     .mobile-class-nav-btn:hover {
         border-color: rgba(147, 51, 234, 0.3);
         background: rgba(255, 255, 255, 0.9);
-        transform: translateY(-4px) scale(1.03);
+        transform: translateY(-3px) scale(1.02);
         box-shadow: 
-            0 12px 35px rgba(147, 51, 234, 0.2),
-            0 6px 20px rgba(0, 0, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            0 8px 25px rgba(147, 51, 234, 0.15),
+            0 4px 12px rgba(0, 0, 0, 0.1);
     }
     
     .mobile-class-nav-btn:hover::before {
@@ -3012,11 +2931,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     }
     
     .mobile-class-nav-btn:active {
-        transform: translateY(-1px) scale(0.96);
-        transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(0, 0, 0, 0.1);
+        transform: translateY(0) scale(0.98);
     }
     
     .mobile-class-nav-btn.active {
@@ -3087,53 +3002,16 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         border: 1px solid var(--border-color);
         border-radius: 8px;
         margin-bottom: 6px;
-        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transform: translateY(0);
         overflow: hidden;
         position: relative;
-        will-change: transform, box-shadow, background;
-        transform: translateZ(0);
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-        animation: homeworkItemSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-    
-    /* Staggered animation delays for homework items */
-    .homework-item:nth-child(1) { animation-delay: 0.1s; }
-    .homework-item:nth-child(2) { animation-delay: 0.2s; }
-    .homework-item:nth-child(3) { animation-delay: 0.3s; }
-    .homework-item:nth-child(4) { animation-delay: 0.4s; }
-    .homework-item:nth-child(5) { animation-delay: 0.5s; }
-    .homework-item:nth-child(6) { animation-delay: 0.6s; }
-    .homework-item:nth-child(7) { animation-delay: 0.7s; }
-    .homework-item:nth-child(8) { animation-delay: 0.8s; }
-    .homework-item:nth-child(9) { animation-delay: 0.9s; }
-    .homework-item:nth-child(10) { animation-delay: 1.0s; }
-    .homework-item:nth-child(n+11) { animation-delay: 1.1s; }
-    
-    @keyframes homeworkItemSlideIn {
-        0% {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95) rotateX(-5deg);
-            filter: blur(2px);
-        }
-        50% {
-            opacity: 0.8;
-            transform: translateY(-2px) scale(0.98) rotateX(0deg);
-            filter: blur(1px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0) scale(1) rotateX(0deg);
-            filter: blur(0px);
-        }
     }
     
     .homework-item:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.15),
-            0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         border-color: var(--accent-color);
     }
     
@@ -3333,19 +3211,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     
     /* Mobile touch interactions */
     .homework-item:active {
-        transform: scale(0.96) translateY(1px);
-        transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(0, 0, 0, 0.1);
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
     }
     
     .homework-action-btn:active {
-        transform: scale(0.85);
-        transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 
-            0 1px 4px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(0, 0, 0, 0.2);
+        transform: scale(0.9);
+        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     /* Mobile Homework List - Ultra Efficient */

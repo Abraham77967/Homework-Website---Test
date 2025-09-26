@@ -1265,8 +1265,9 @@ function renderClassNavigation() {
     // Add event listeners to desktop class navigation buttons (only if not already added)
     if (classNavElement && !classNavElement.hasAttribute('data-listeners-added')) {
         classNavElement.addEventListener('click', (e) => {
-            if (e.target.classList.contains('class-nav-btn')) {
-                selectedClass = e.target.dataset.class;
+            const button = e.target.closest('.class-nav-btn');
+            if (button) {
+                selectedClass = button.dataset.class;
                 updateClassNavigationActiveState();
                 renderHomeworkList();
             }
@@ -1279,9 +1280,10 @@ function renderClassNavigation() {
         console.log('✅ Mobile class nav buttons found, adding event listener');
         mobileClassNavButtons.addEventListener('click', (e) => {
             console.log('📱 Mobile class nav button clicked:', e.target);
-            if (e.target.classList.contains('mobile-class-nav-btn')) {
-                console.log('📱 Valid mobile class nav button clicked, class:', e.target.dataset.class);
-                selectedClass = e.target.dataset.class;
+            const button = e.target.closest('.mobile-class-nav-btn');
+            if (button) {
+                console.log('📱 Valid mobile class nav button clicked, class:', button.dataset.class);
+                selectedClass = button.dataset.class;
                 updateClassNavigationActiveState();
                 renderHomeworkList();
                 // Close mobile nav after selection
