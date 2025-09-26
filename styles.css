@@ -1656,9 +1656,8 @@ body.modal-open {
     padding: 0;
     box-shadow: var(--shadow-sm);
     overflow: hidden;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: slideInUp 0.8s ease-out 0.8s forwards;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .homework-list {
