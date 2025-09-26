@@ -602,6 +602,16 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+@keyframes slideInUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
 
 /* Content Header */
 .content-header {
@@ -1788,6 +1798,23 @@ body.modal-open {
     transform: translateY(0);
 }
 
+/* Only animate homework items when the animate-homework-items class is present */
+.animate-homework-items .homework-item {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 0.6s ease-out forwards;
+}
+
+.animate-homework-items .homework-item:nth-child(1) { animation-delay: 0.1s; }
+.animate-homework-items .homework-item:nth-child(2) { animation-delay: 0.2s; }
+.animate-homework-items .homework-item:nth-child(3) { animation-delay: 0.3s; }
+.animate-homework-items .homework-item:nth-child(4) { animation-delay: 0.4s; }
+.animate-homework-items .homework-item:nth-child(5) { animation-delay: 0.5s; }
+.animate-homework-items .homework-item:nth-child(6) { animation-delay: 0.6s; }
+.animate-homework-items .homework-item:nth-child(7) { animation-delay: 0.7s; }
+.animate-homework-items .homework-item:nth-child(8) { animation-delay: 0.8s; }
+.animate-homework-items .homework-item:nth-child(9) { animation-delay: 0.9s; }
+.animate-homework-items .homework-item:nth-child(10) { animation-delay: 1.0s; }
 
 .homework-item:last-child {
     border-bottom: none;
@@ -2987,6 +3014,24 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         overflow: hidden;
         position: relative;
     }
+    
+    /* Mobile animations only when switching classes */
+    .animate-homework-items .homework-item {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideInUp 0.6s ease-out forwards;
+    }
+    
+    .animate-homework-items .homework-item:nth-child(1) { animation-delay: 0.1s; }
+    .animate-homework-items .homework-item:nth-child(2) { animation-delay: 0.2s; }
+    .animate-homework-items .homework-item:nth-child(3) { animation-delay: 0.3s; }
+    .animate-homework-items .homework-item:nth-child(4) { animation-delay: 0.4s; }
+    .animate-homework-items .homework-item:nth-child(5) { animation-delay: 0.5s; }
+    .animate-homework-items .homework-item:nth-child(6) { animation-delay: 0.6s; }
+    .animate-homework-items .homework-item:nth-child(7) { animation-delay: 0.7s; }
+    .animate-homework-items .homework-item:nth-child(8) { animation-delay: 0.8s; }
+    .animate-homework-items .homework-item:nth-child(9) { animation-delay: 0.9s; }
+    .animate-homework-items .homework-item:nth-child(10) { animation-delay: 1.0s; }
     
     .homework-item:hover {
         transform: translateY(-2px) scale(1.01);

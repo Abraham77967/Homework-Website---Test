@@ -22,6 +22,7 @@ let classesList = [];
 let selectedClass = 'all';
 let unsubscribe = null;
 let classesUnsubscribe = null;
+let isClassSwitching = false; // Flag to track when we're switching classes
 
 // Testing function - View indicator
 function updateViewIndicator() {
@@ -40,7 +41,9 @@ updateViewIndicator();
 window.addEventListener('resize', () => {
     updateViewIndicator();
     // Re-render homework list when switching between mobile/desktop
+    // Don't trigger animations during resize
     if (homeworkList && homeworkList.length > 0) {
+        isClassSwitching = false; // Disable animations for resize
         renderHomeworkList();
     }
 });
@@ -1157,9 +1160,22 @@ function renderHomeworkList() {
     
     homeworkListElement.innerHTML = html;
     
+    // Apply animation class only when switching classes
+    if (isClassSwitching) {
+        homeworkListElement.classList.add('animate-homework-items');
+        // Remove the class after animation completes
+        setTimeout(() => {
+            homeworkListElement.classList.remove('animate-homework-items');
+        }, 1000); // Match the longest animation delay
+    } else {
+        homeworkListElement.classList.remove('animate-homework-items');
+    }
+    
+    // Reset the flag
+    isClassSwitching = false;
+    
     // Add event listeners to action buttons
     addActionButtonListeners();
-    
 }
 
 function getVisibleHomeworkCount(homeworkArray) {
@@ -1266,10 +1282,10 @@ function renderClassNavigation() {
     // Add event listeners to desktop class navigation buttons (only if not already added)
     if (classNavElement && !classNavElement.hasAttribute('data-listeners-added')) {
         classNavElement.addEventListener('click', (e) => {
-            const button = e.target.closest('.class-nav-btn');
-            if (button) {
-                selectedClass = button.dataset.class;
+            if (e.target.classList.contains('class-nav-btn')) {
+                selectedClass = e.target.dataset.class;
                 updateClassNavigationActiveState();
+                isClassSwitching = true; // Enable animations for class switching
                 renderHomeworkList();
             }
         });
@@ -1281,11 +1297,11 @@ function renderClassNavigation() {
         console.log('✅ Mobile class nav buttons found, adding event listener');
         mobileClassNavButtons.addEventListener('click', (e) => {
             console.log('📱 Mobile class nav button clicked:', e.target);
-            const button = e.target.closest('.mobile-class-nav-btn');
-            if (button) {
-                console.log('📱 Valid mobile class nav button clicked, class:', button.dataset.class);
-                selectedClass = button.dataset.class;
+            if (e.target.classList.contains('mobile-class-nav-btn')) {
+                console.log('📱 Valid mobile class nav button clicked, class:', e.target.dataset.class);
+                selectedClass = e.target.dataset.class;
                 updateClassNavigationActiveState();
+                isClassSwitching = true; // Enable animations for class switching
                 renderHomeworkList();
                 // Close mobile nav after selection
                 if (mobileClassNavElement) {
